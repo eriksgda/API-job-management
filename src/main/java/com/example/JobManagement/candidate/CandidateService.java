@@ -14,8 +14,6 @@ public class CandidateService {
         if (this.repository.findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail()) != null){
             throw new UserOrEmailAlreadyExistException();
         }
-        this.repository.save(candidate);
-
-        return candidate;
+        return this.repository.save(candidate);
     }
 }
