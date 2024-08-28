@@ -24,6 +24,5 @@ public class CompanyController {
         } catch (UserOrEmailAlreadyExistException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
-
     }
 }
