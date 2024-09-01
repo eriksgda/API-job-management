@@ -15,7 +15,7 @@ import java.time.Instant;
 @Service
 public class CompanyAuthService {
 
-    @Value("$(security.token.secret)")
+    @Value("$(security.token.secret.company)")
     private String secretKey;
 
     @Autowired
