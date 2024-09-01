@@ -3,6 +3,7 @@ package com.example.JobManagement.jobs;
 import com.example.JobManagement.company.CompanyEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @Entity(name = "jobs")
 public class JobEntity {
 
