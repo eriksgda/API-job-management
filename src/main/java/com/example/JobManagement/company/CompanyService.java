@@ -18,8 +18,8 @@ public class CompanyService {
         if (this.repository.findByUsernameOrEmail(company.getUsername(), company.getEmail()) != null) {
             throw new UserOrEmailAlreadyExistException();
         }
-        var EncodedPassword = this.PasswordEncoder.encode(company.getPassword());
-        company.setPassword(EncodedPassword);
+        String encodedPassword = this.PasswordEncoder.encode(company.getPassword());
+        company.setPassword(encodedPassword);
 
         return this.repository.save(company);
     }
