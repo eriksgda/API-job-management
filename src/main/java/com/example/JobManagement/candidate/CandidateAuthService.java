@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,7 +40,7 @@ public class CandidateAuthService {
         Instant expiresIn = Instant.now().plus(Duration.ofHours(2));
         String token = JWT.create()
                 .withIssuer("candidate").withSubject(candidate.getId().toString())
-                .withClaim("roles", List.of("candidate"))
+                .withClaim("roles", List.of("CANDIDATE"))
                 .withExpiresAt(expiresIn)
                 .sign(algorithm);
 
