@@ -4,6 +4,7 @@ import com.example.JobManagement.candidate.CandidateAuthDTO;
 import com.example.JobManagement.candidate.CandidateAuthResponseDTO;
 import com.example.JobManagement.candidate.CandidateAuthService;
 import com.example.JobManagement.company.CompanyAuthDTO;
+import com.example.JobManagement.company.CompanyAuthResponseDTO;
 import com.example.JobManagement.company.CompanyAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class SecurityAuthController {
     @PostMapping("/company")
     public ResponseEntity<Object> AuthenticateCompany(@RequestBody CompanyAuthDTO dto){
         try{
-            String token = this.companyAuthService.authenticateCompany(dto);
+            CompanyAuthResponseDTO token = this.companyAuthService.authenticateCompany(dto);
             return ResponseEntity.ok().body(token);
         } catch (AuthenticationException exception){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
