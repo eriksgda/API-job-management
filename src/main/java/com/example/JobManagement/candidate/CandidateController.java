@@ -1,6 +1,9 @@
 package com.example.JobManagement.candidate;
 
 import com.example.JobManagement.exceptions.UserOrEmailAlreadyExistException;
+import com.example.JobManagement.jobs.JobEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,6 +46,19 @@ public class CandidateController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }catch (Exception exception){
             return ResponseEntity.internalServerError().body("error");
+        }
+    }
+
+    @GetMapping("/view_jobs")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Tag(name = "Candidate", description = "Candidate Infos")
+    @Operation(summary = "List all jobs with filter to candidate", description = "List jobs :)")
+    public List<JobEntity> getAllJobsByFilter(@RequestBody String filter){
+        try {
+            return this.service.getAllJobsByFilter(filter);
+            //return ResponseEntity.ok().body(jobs);
+        } catch (Exception exception) {
+            return null;
         }
     }
 }

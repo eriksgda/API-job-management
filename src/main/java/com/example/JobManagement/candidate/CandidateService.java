@@ -1,11 +1,14 @@
 package com.example.JobManagement.candidate;
 
 import com.example.JobManagement.exceptions.UserOrEmailAlreadyExistException;
+import com.example.JobManagement.jobs.JobEntity;
+import com.example.JobManagement.jobs.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,6 +17,9 @@ public class CandidateService {
 
     @Autowired
     private CandidateRepository  repository;
+
+    @Autowired
+    private JobRepository jobRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,5 +48,9 @@ public class CandidateService {
                 .email(candidate.get().getEmail())
                 .description(candidate.get().getDescription())
                 .build();
+    }
+
+    public List<JobEntity> getAllJobsByFilter(String filter){
+        return this.jobRepository.findByDescriptionContaining(filter);
     }
 }

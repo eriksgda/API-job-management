@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class CandidateAuthService {
 
-    @Value("$(security.token.secret.candidate)")
+    @Value("${security.token.secret.candidate}")
     private String secretKey;
 
     @Autowired
