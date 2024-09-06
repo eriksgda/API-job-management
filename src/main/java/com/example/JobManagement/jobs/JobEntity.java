@@ -1,11 +1,10 @@
 package com.example.JobManagement.jobs;
 
 import com.example.JobManagement.company.CompanyEntity;
+import com.example.JobManagement.company.CompanyResponseDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -14,6 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "jobs")
 public class JobEntity {
 
@@ -30,7 +31,7 @@ public class JobEntity {
 
     @ManyToOne()
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
-    private CompanyEntity companyEntity;
+    private CompanyResponseDTO CompanyInfos;
 
     @Column(name = "company_id", nullable = false)
     private UUID companyId;
