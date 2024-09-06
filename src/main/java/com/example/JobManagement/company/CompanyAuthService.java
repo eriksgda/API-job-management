@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
+import java.util.Arrays;
 
 @Service
 public class CompanyAuthService {
 
-    @Value("$(security.token.secret.company)")
+    @Value("${security.token.secret.company}")
     private String secretKey;
 
     @Autowired
@@ -37,12 +37,10 @@ public class CompanyAuthService {
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
         Instant expiresIn = Instant.now().plus(Duration.ofHours(2));
-
         String token =  JWT.create()
                 .withIssuer("company").withSubject(company.getId().toString())
-                .withClaim("roles", List.of("COMPANY"))
+                .withClaim("roles", Arrays.asList("COMPANY"))
                 .withExpiresAt(expiresIn)
                 .sign(algorithm);
 
