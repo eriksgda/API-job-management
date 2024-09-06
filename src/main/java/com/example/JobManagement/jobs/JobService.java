@@ -10,8 +10,6 @@ public class JobService {
     private JobRepository repository;
 
     public JobEntity createJob(JobEntity job) {
-        this.repository.save(job);
-
-        return job;
+        return this.repository.save(job);
     }
 }
