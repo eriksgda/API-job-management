@@ -28,10 +28,11 @@ public class SecurityCandidateFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        SecurityContextHolder.getContext().setAuthentication(null);
-        String header = request.getHeader("Authorization");
 
         if (request.getRequestURI().startsWith("/candidate") | request.getRequestURI().startsWith("/auth/candidate")){
+            SecurityContextHolder.getContext().setAuthentication(null);
+            String header = request.getHeader("Authorization");
+
             if (header != null){
                 DecodedJWT token = this.jwtProvider.validateToken(header);
 

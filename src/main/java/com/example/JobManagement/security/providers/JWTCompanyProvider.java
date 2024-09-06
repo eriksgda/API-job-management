@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JWTCompanyProvider {
 
-    @Value("$(security.token.secret)")
+    @Value("${security.token.secret.company}")
     private String secretKey;
 
     public DecodedJWT validateToken(String token){

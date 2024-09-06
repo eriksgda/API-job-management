@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -28,10 +27,10 @@ public class SecurityCompanyFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        SecurityContextHolder.getContext().setAuthentication(null);
-        String header = request.getHeader("Authorization");
-
         if (request.getRequestURI().startsWith("/company") | request.getRequestURI().startsWith("/auth/company")){
+            SecurityContextHolder.getContext().setAuthentication(null);
+            String header = request.getHeader("Authorization");
+
             if (header != null){
                 DecodedJWT token = this.jwtProvider.validateToken(header);
 
@@ -50,11 +49,10 @@ public class SecurityCompanyFilter extends OncePerRequestFilter {
                         token.getSubject(),
                         null,
                         listGrants);
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
-
-
         filterChain.doFilter(request, response);
     }
 }
