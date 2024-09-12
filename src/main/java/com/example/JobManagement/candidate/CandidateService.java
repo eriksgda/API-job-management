@@ -51,6 +51,6 @@ public class CandidateService {
     }
 
     public List<JobEntity> getAllJobsByFilter(String filter){
-        return this.jobRepository.findByDescriptionContaining(filter);
+        return this.jobRepository.findByDescriptionContainingIgnoreCase(filter);
     }
 }
