@@ -1,10 +1,11 @@
 package com.example.JobManagement.candidate;
 
+import com.example.JobManagement.exceptions.JobNotFoundException;
+import com.example.JobManagement.exceptions.UserNotFoundException;
 import com.example.JobManagement.exceptions.UserOrEmailAlreadyExistException;
 import com.example.JobManagement.jobs.JobEntity;
 import com.example.JobManagement.jobs.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class CandidateService {
         Optional<CandidateEntity> candidate = this.repository.findById(candidateId);
 
         if (candidate.isEmpty()){
-            throw new UsernameNotFoundException("User not found.");
+            throw new UserNotFoundException();
         }
 
         return CandidateProfileResponseDTO.builder()
@@ -52,5 +53,17 @@ public class CandidateService {
 
     public List<JobEntity> getAllJobsByFilter(String filter){
         return this.jobRepository.findByDescriptionContainingIgnoreCase(filter);
+    }
+
+    public void applyJob(UUID candidateId, UUID jobId){
+        Optional<CandidateEntity> candidate = this.repository.findById(candidateId);
+        if (candidate.isEmpty()){
+            throw new UserNotFoundException();
+        }
+
+        Optional<JobEntity> job = this.jobRepository.findById(jobId);
+        if (job.isEmpty()){
+            throw new JobNotFoundException();
+        }
     }
 }
