@@ -3,6 +3,8 @@ package com.example.JobManagement.candidate;
 import com.example.JobManagement.exceptions.JobNotFoundException;
 import com.example.JobManagement.exceptions.UserNotFoundException;
 import com.example.JobManagement.exceptions.UserOrEmailAlreadyExistException;
+import com.example.JobManagement.jobs.Applyjobs.ApplyJobEntity;
+import com.example.JobManagement.jobs.Applyjobs.ApplyJobRepository;
 import com.example.JobManagement.jobs.JobEntity;
 import com.example.JobManagement.jobs.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class CandidateService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    ApplyJobRepository applyJobRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,7 +60,7 @@ public class CandidateService {
         return this.jobRepository.findByDescriptionContainingIgnoreCase(filter);
     }
 
-    public void applyJob(UUID candidateId, UUID jobId){
+    public ApplyJobEntity applyJob(UUID candidateId, UUID jobId){
         Optional<CandidateEntity> candidate = this.repository.findById(candidateId);
         if (candidate.isEmpty()){
             throw new UserNotFoundException();
@@ -65,5 +70,12 @@ public class CandidateService {
         if (job.isEmpty()){
             throw new JobNotFoundException();
         }
+
+        ApplyJobEntity applyJob = ApplyJobEntity.builder()
+                .candidateId(candidateId)
+                .jobId(jobId)
+                .build();
+
+        return this.applyJobRepository.save(applyJob);
     }
 }
