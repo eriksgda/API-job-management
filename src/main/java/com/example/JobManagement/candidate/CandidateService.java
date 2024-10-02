@@ -76,6 +76,7 @@ public class CandidateService {
                 .jobId(jobId)
                 .build();
 
-        return this.applyJobRepository.save(applyJob);
+        applyJob =  this.applyJobRepository.save(applyJob);
+        return applyJob;
     }
 }
