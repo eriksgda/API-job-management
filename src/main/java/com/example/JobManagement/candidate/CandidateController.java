@@ -1,6 +1,9 @@
 package com.example.JobManagement.candidate;
 
+import com.example.JobManagement.exceptions.JobNotFoundException;
+import com.example.JobManagement.exceptions.UserNotFoundException;
 import com.example.JobManagement.exceptions.UserOrEmailAlreadyExistException;
+import com.example.JobManagement.jobs.Applyjobs.ApplyJobEntity;
 import com.example.JobManagement.jobs.JobEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,13 +29,13 @@ public class CandidateController {
 
     @PostMapping("/")
     @Operation(summary = "Create a candidate profile", description = "create candidate :)")
-    public ResponseEntity<Object> createCandidate(@Valid @RequestBody CandidateEntity candidate){
-        try{
-            CandidateEntity result =  this.service.createUser(candidate);
+    public ResponseEntity<Object> createCandidate(@Valid @RequestBody CandidateEntity candidate) {
+        try {
+            CandidateEntity result = this.service.createUser(candidate);
             return ResponseEntity.ok().body(result);
-        }catch (UserOrEmailAlreadyExistException exception){
+        } catch (UserOrEmailAlreadyExistException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return ResponseEntity.internalServerError().body("error");
         }
     }
@@ -41,15 +44,15 @@ public class CandidateController {
     @PreAuthorize("hasRole('CANDIDATE')")
     @Operation(summary = "Get all info of the candidate", description = "List candidate info :)")
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<Object> getProfileCandidate(HttpServletRequest request){
+    public ResponseEntity<Object> getProfileCandidate(HttpServletRequest request) {
         Object id = request.getAttribute("candidate_id");
 
         try {
             CandidateProfileResponseDTO profile = this.service.getProfileUser(UUID.fromString(id.toString()));
             return ResponseEntity.ok().body(profile);
-        } catch (UsernameNotFoundException exception){
+        } catch (UsernameNotFoundException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
-        }catch (Exception exception){
+        } catch (Exception exception) {
             return ResponseEntity.internalServerError().body("error");
         }
     }
@@ -58,7 +61,7 @@ public class CandidateController {
     @PreAuthorize("hasRole('CANDIDATE')")
     @Operation(summary = "List all jobs with filter to candidate", description = "List jobs :)")
     @SecurityRequirement(name = "jwt_auth")
-    public List<JobEntity> getAllJobsByFilter(@RequestBody String filter){
+    public List<JobEntity> getAllJobsByFilter(@RequestParam String filter) {
         try {
             return this.service.getAllJobsByFilter(filter);
             //return ResponseEntity.ok().body(jobs);
@@ -66,4 +69,22 @@ public class CandidateController {
             return null;
         }
     }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Apply to a job", description = "Apply jobs :)")
+    @SecurityRequirement(name = "jwt_auth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID jobId) {
+        Object id = request.getAttribute("candidate_id");
+        try {
+            ApplyJobEntity result = this.service.applyJob(UUID.fromString(id.toString()), jobId);
+            return ResponseEntity.ok().body(result);
+        } catch (UserNotFoundException | JobNotFoundException exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        } catch (Exception exception) {
+            return ResponseEntity.internalServerError().body("error");
+        }
+    }
+
+
 }
