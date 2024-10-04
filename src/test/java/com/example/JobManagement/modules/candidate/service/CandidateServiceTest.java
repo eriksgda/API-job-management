@@ -28,22 +28,22 @@ import static org.mockito.Mockito.when;
 public class CandidateServiceTest {
 
     @InjectMocks
-    public CandidateService service;
+    private CandidateService service;
 
     @Mock
-    public CandidateRepository candidateRepository;
+    private CandidateRepository candidateRepository;
 
     @Mock
-    public JobRepository jobRepository;
+    private JobRepository jobRepository;
 
     @Mock
-    public ApplyJobRepository applyJobRepository;
+    private ApplyJobRepository applyJobRepository;
 
     @Test
     @DisplayName("Apply job should return user not found exception if candidate don't exists.")
     void testApplyJobReturnCandidateNotFound(){
         Assertions.assertThrows(UserNotFoundException.class,
-                () -> service.applyJob(null, null));
+                () -> this.service.applyJob(null, null));
     }
 
     @Test
@@ -53,9 +53,9 @@ public class CandidateServiceTest {
         CandidateEntity candidate = new CandidateEntity();
         candidate.setId(candidateId);
 
-        when(candidateRepository.findById(candidateId)).thenReturn(Optional.of(candidate));
+        when(this.candidateRepository.findById(candidateId)).thenReturn(Optional.of(candidate));
         Assertions.assertThrows(JobNotFoundException.class,
-                () -> service.applyJob(candidateId, null));
+                () -> this.service.applyJob(candidateId, null));
     }
 
     @Test
@@ -68,11 +68,11 @@ public class CandidateServiceTest {
         ApplyJobEntity applyJob = ApplyJobEntity.builder().candidateId(candidateId).jobId(jobId).build();
         applyJob.setId(applyJobId);
 
-        when(candidateRepository.findById(candidateId)).thenReturn(Optional.of(new CandidateEntity()));
-        when(jobRepository.findById(jobId)).thenReturn(Optional.of(new JobEntity()));
-        when(applyJobRepository.save(any(ApplyJobEntity.class))).thenReturn(applyJob);
+        when(this.candidateRepository.findById(candidateId)).thenReturn(Optional.of(new CandidateEntity()));
+        when(this.jobRepository.findById(jobId)).thenReturn(Optional.of(new JobEntity()));
+        when(this.applyJobRepository.save(any(ApplyJobEntity.class))).thenReturn(applyJob);
 
-        ApplyJobEntity result = service.applyJob(candidateId, jobId);
+        ApplyJobEntity result = this.service.applyJob(candidateId, jobId);
         assertThat(result).hasFieldOrProperty("id");
         Assertions.assertNotNull(result.getId());
     }
