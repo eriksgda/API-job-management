@@ -2,8 +2,10 @@ package com.example.JobManagement.modules.company.controller;
 
 import com.example.JobManagement.company.CompanyEntity;
 import com.example.JobManagement.company.CompanyRepository;
+import com.example.JobManagement.exceptions.CompanyNotFoundException;
 import com.example.JobManagement.jobs.CreateJobDTO;
 import com.example.JobManagement.utils.UtilTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+
+import java.util.UUID;
 
 import static com.example.JobManagement.utils.UtilTest.toJson;
 
@@ -66,5 +70,19 @@ class CompanyControllerTest {
                 .content(toJson(newJob))
                 .header("Authorization", UtilTest.generateToken(company.getId()))
         ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void testCreateJobReturnBadRequestIfCompanyNotExist() throws Exception {
+        CreateJobDTO newJob = CreateJobDTO.builder()
+                .benefits("TEST_BENEFITS")
+                .description("TEST_DESCRIPTION")
+                .level("TEST_LEVEL").build();
+
+        this.mvc.perform(MockMvcRequestBuilders.post("/company/job")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(newJob))
+                .header("Authorization", UtilTest.generateToken(UUID.randomUUID()))
+        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
