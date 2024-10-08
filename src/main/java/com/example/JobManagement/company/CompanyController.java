@@ -59,7 +59,7 @@ public class CompanyController {
 
             return ResponseEntity.ok().body(job);
         } catch (Exception exception) {
-            return ResponseEntity.badRequest().body("error");
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 }
