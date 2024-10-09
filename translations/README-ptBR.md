@@ -3,7 +3,7 @@
 > Status: status: finalizado ✔️
 
 _Ler este documento em outros idiomas:_
-[_English_](./translations/README-en.md)
+[_English_](../README.md)
 
 ## Sobre o projeto
 
