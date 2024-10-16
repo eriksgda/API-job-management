@@ -46,8 +46,14 @@ git clone https://github.com/eriksgda/job-management.git
 
 ```bash
 mvn install
+docker-compose -d up
 mvn spring-boot:run
+```
 
+- For more information on the endpoints, please refer to the documentation in Swagger after cloning this repository:
+
+```bash
+http://localhost:8080/swagger-ui.html
 ```
 
 ## License
