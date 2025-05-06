@@ -46,6 +46,7 @@ git clone https://github.com/eriksgda/API-job-management.git
 
 ```bash
 mvn install
+docker-compose up -d
 mvn spring-boot:run
 ```
 

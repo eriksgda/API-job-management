@@ -55,7 +55,6 @@ mvn spring-boot:run
 ```bash
 http://localhost:8080/swagger-ui.html
 ```
-
 ## Licença
 
 Esse projeto está sob a licença [MIT](./../LICENSE).
