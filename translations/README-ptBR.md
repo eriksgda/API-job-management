@@ -46,7 +46,14 @@ git clone https://github.com/eriksgda/API-job-management.git
 
 ```bash
 mvn install
+docker-compose up -d
 mvn spring-boot:run
+```
+
+- Para mais informações sobre os endpoints, consulte a documentação no Swagger após clonar este repositório:
+
+```bash
+http://localhost:8080/swagger-ui.html
 ```
 
 ## Licença
