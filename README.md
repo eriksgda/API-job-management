@@ -39,7 +39,7 @@ The API is designed to manage and record information about job offers for cats, 
 - Clone this repository to your local environment:
 
 ```bash
-git clone https://github.com/eriksgda/job-management.git
+git clone https://github.com/eriksgda/API-job-management.git
 ```
 
 - Run the main program file:
@@ -47,7 +47,6 @@ git clone https://github.com/eriksgda/job-management.git
 ```bash
 mvn install
 mvn spring-boot:run
-
 ```
 
 ## License

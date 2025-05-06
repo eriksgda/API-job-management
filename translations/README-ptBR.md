@@ -39,7 +39,7 @@ A API foi projetada para gerenciar e registrar informações sobre ofertas de em
 - Clone este repositório para o seu ambiente local:
 
 ```bash
-git clone https://github.com/eriksgda/job-management.git
+git clone https://github.com/eriksgda/API-job-management.git
 ```
 
 - Execute o arquivo principal do programa:
